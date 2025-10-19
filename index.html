@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vũ Trụ 20/10 của Trí 🌌</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <!-- 3D Universe Background -->
+    <div id="universe-container"></div>
+    
+    <!-- Portal Effect -->
+    <div id="portal-effect" class="portal-hidden">
+        <div class="portal-ring"></div>
+        <div class="portal-center"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Screen 1: Identity Confirmation -->
+        <div id="identity-screen" class="screen active">
+                <div class="universe-content">
+                <div class="typing-container">
+                    <h1 id="typing-text" class="typing-text"></h1>
+                    <div class="cursor"></div>
+                </div>
+                <p class="universe-subtitle">Chọn danh tính của bạn trong vũ trụ này...</p>
+                
+                <!-- Music Control -->
+                <div class="music-control">
+                    <button id="music-toggle" class="music-btn">
+                        <i class="fas fa-play"></i> Bật nhạc nền
+                    </button>
+                </div>
+                
+                <div class="identity-options">
+                    <button class="identity-btn" data-relationship="mom">
+                        <span class="btn-icon">💖</span>
+                        <span class="btn-text">Mẹ</span>
+                        <span class="btn-desc"></span>
+                    </button>
+                    <button class="identity-btn" data-relationship="aunt">
+                        <span class="btn-icon">🔥</span>
+                        <span class="btn-text">Mợ</span>
+                        <span class="btn-desc"></span>
+                    </button>
+                    <button class="identity-btn" data-relationship="grandma">
+                        <span class="btn-icon">🌳</span>
+                        <span class="btn-text">Ngoại</span>
+                        <span class="btn-desc"></span>
+                    </button>
+                    <button class="identity-btn" data-relationship="stranger">
+                        <span class="btn-icon">👤</span>
+                        <span class="btn-text">Người lạ</span>
+                        <span class="btn-desc"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen 2: Trí's Voice -->
+        <div id="voice-screen" class="screen">
+            <div class="voice-content">
+                <div class="voice-text-container">
+                    <h2 id="voice-text" class="voice-text"></h2>
+                </div>
+                
+                <!-- Symbol Display -->
+                <div id="symbol-display" class="symbol-display">
+                    <div id="symbol-container" class="symbol-container">
+                        <!-- Symbol will be dynamically inserted here -->
+                    </div>
+                    <div class="symbol-info">
+                        <h3 id="symbol-title"></h3>
+                        <p id="symbol-description"></p>
+                    </div>
+                </div>
+                
+                <div class="camera-movement">
+                    <div class="door-frame">
+                        <div class="door"></div>
+                    </div>
+                </div>
+                <button id="enter-btn" class="enter-btn">
+                    <span>Bước vô nào!</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Screen 3: 3D Room -->
+        <div id="room-screen" class="screen">
+            <div class="room-container">
+                <div id="room-3d"></div>
+                <div class="room-ui">
+                    <div class="room-title">
+                        <h2>🏠 Căn phòng của Trí</h2>
+                        <p>Khám phá những điều đặc biệt...</p>
+                    </div>
+                    
+                    <div class="interactive-objects">
+                        <div class="object-card" data-object="rose">
+                            <div class="object-icon">🌹</div>
+                            <div class="object-name">Hoa hồng</div>
+                            <div class="object-desc">Lời chúc đặc biệt</div>
+                        </div>
+                        
+                        <div class="object-card" data-object="letter">
+                            <div class="object-icon">💌</div>
+                            <div class="object-name">Thư ảo</div>
+                            <div class="object-desc">Tin nhắn riêng</div>
+                        </div>
+                        
+                        <div class="object-card" data-object="cake">
+                            <div class="object-icon">🧁</div>
+                            <div class="object-name">Bánh kem</div>
+                            <div class="object-desc">Party time!</div>
+                        </div>
+                        
+                        <div class="object-card" data-object="laptop">
+                            <div class="object-icon">💻</div>
+                            <div class="object-name">Laptop</div>
+                            <div class="object-desc">Xem Trí code</div>
+                        </div>
+                        
+                        <div class="object-card" data-object="speaker">
+                            <div class="object-icon">🎵</div>
+                            <div class="object-name">Loa nhỏ</div>
+                            <div class="object-desc">Nhạc nền</div>
+                        </div>
+                        
+                        <div class="object-card" data-object="door">
+                            <div class="object-icon">🚪</div>
+                            <div class="object-name">Cánh cửa cuối</div>
+                            <div class="object-desc">Kết thúc hành trình</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen 4: Emotional Moment -->
+        <div id="emotional-screen" class="screen">
+            <div class="emotional-content">
+                <div class="emotional-text">
+                    <h2 id="emotional-message"></h2>
+                </div>
+                <div class="lofi-background">
+                    <div class="lofi-visualizer">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                    </div>
+                </div>
+                <div class="emotional-hearts">
+                    <span class="heart">💗</span>
+                    <span class="heart">💕</span>
+                    <span class="heart">💖</span>
+                    <span class="heart">💝</span>
+                    <span class="heart">💘</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen 5: Ending Portal -->
+        <div id="ending-screen" class="screen">
+            <div class="ending-content">
+                <div class="final-symbol-display">
+                    <div id="final-symbol-container" class="final-symbol-container">
+                        <!-- Final symbol will be displayed here -->
+                    </div>
+                    <div class="final-symbol-info">
+                        <h3 id="final-symbol-title"></h3>
+                        <p id="final-symbol-description"></p>
+                    </div>
+                </div>
+                
+                <div class="light-portal">
+                    <div class="portal-glow"></div>
+                    <div class="portal-text">
+                        <h2>Hết rồi đó, nhưng web này làm Trí tốn 3 ngày 2 đêm đó nha 😤</h2>
+                    </div>
+                </div>
+                
+                <div class="feedback-section">
+                    <button id="send-feedback" class="feedback-btn">
+                        <i class="fas fa-comment"></i>
+                         coi coi💬
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Symbol Modals -->
+        <div id="mom-symbol-modal" class="modal symbol-modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="symbol-animation">
+                    <div class="crystal-heart-modal">
+                        <div class="heart-core"></div>
+                        <div class="heart-glow"></div>
+                        <div class="warmth-rings">
+                            <div class="ring ring-1"></div>
+                            <div class="ring ring-2"></div>
+                            <div class="ring ring-3"></div>
+                        </div>
+                    </div>
+                </div>
+                <h2>Mẹ Hà :>> </h2>
+                <div class="symbol-message">
+                    <p>Mẹ, ngày 20/10 vuii con iu mẹ không lẽ nói zạy :> làm gì có mẹ ơi mấy nay nhổ răng đau quá chắc phải đi hà nội để hết đau quáquá 💕</p>
+                </div>
+                <div class="audio-controls">
+                    <button class="audio-btn" id="mom-heartbeat-btn">
+                        <i class="fas fa-heart"></i>
+                        
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="aunt-symbol-modal" class="modal symbol-modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="symbol-animation">
+                    <div class="playful-flame-modal">
+                        <div class="flame-core"></div>
+                        <div class="flame-body"></div>
+                        <div class="flame-tips">
+                            <div class="tip tip-1"></div>
+                            <div class="tip tip-2"></div>
+                            <div class="tip tip-3"></div>
+                        </div>
+                        <div class="sparkles">
+                            <div class="sparkle sparkle-1"></div>
+                            <div class="sparkle sparkle-2"></div>
+                            <div class="sparkle sparkle-3"></div>
+                        </div>
+                    </div>
+                </div>
+                <h2>Mợ Thanh</h2>
+                <div class="symbol-message">
+                    <p>Mợ chúc mợ một ngày 20/10 vui vẻ với lại thèm bánh căn quá :>> 🔥</p>
+                </div>
+                <div class="audio-controls">
+                    <button class="audio-btn" id="aunt-fire-btn">
+                        <i class="fas fa-fire"></i>
+                       
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="grandma-symbol-modal" class="modal symbol-modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="symbol-animation">
+                    <div class="ancient-tree-modal">
+                        <div class="tree-trunk"></div>
+                        <div class="tree-roots">
+                            <div class="root root-1"></div>
+                            <div class="root root-2"></div>
+                            <div class="root root-3"></div>
+                        </div>
+                        <div class="floating-leaves">
+                            <div class="leaf leaf-1"></div>
+                            <div class="leaf leaf-2"></div>
+                            <div class="leaf leaf-3"></div>
+                            <div class="leaf leaf-4"></div>
+                            <div class="leaf leaf-5"></div>
+                        </div>
+                        <div class="tree-glow"></div>
+                    </div>
+                </div>
+                <h2>Ngoại Thu xinh dep :33</h2>
+                <div class="symbol-message">
+                    <p>Ngoại 20/10 vui với cả coi chớ thằng Trí hết gạo rồi nhé   🌳</p>
+                </div>
+                <div class="audio-controls">
+                    <button class="audio-btn" id="grandma-wind-btn">
+                        <i class="fas fa-wind"></i>
+                        
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Object Interaction Modals -->
+        <div id="rose-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="rose-animation">
+                    <div class="rose-bloom">🌹</div>
+                </div>
+                <h2>Lời Chúc Đặc Biệt</h2>
+                <div id="rose-message" class="object-message"></div>
+            </div>
+        </div>
+
+        <div id="letter-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="letter-animation">
+                    <div class="letter-open">💌</div>
+                </div>
+                <h2>Thư Từ Trí</h2>
+                <div id="letter-message" class="object-message"></div>
+            </div>
+        </div>
+
+        <div id="cake-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="cake-explosion">
+                    <div class="confetti"></div>
+                    <div class="cake">🧁</div>
+                </div>
+                <h2>Party Time! 🎉</h2>
+                <p>Chúc mừng 20/10! Hãy cùng ăn mừng nào!</p>
+            </div>
+        </div>
+
+        <div id="laptop-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="laptop-screen">
+                    <div class="code-animation">
+                        <div class="code-line">console.log("Trí đang code web này...");</div>
+                        <div class="code-line">const love = "vô hạn";</div>
+                        <div class="code-line">console.log("Tình yêu của Trí:", love);</div>
+                    </div>
+                </div>
+                <h2>Trí's Coding Session</h2>
+                <p>Đây là những dòng code mà Trí viết để tạo ra trang web này!</p>
+            </div>
+        </div>
+
+        <div id="speaker-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="music-player">
+                    <div class="speaker-icon">🎵</div>
+                    <div class="music-visualizer">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                    </div>
+                </div>
+                <h2>Happy Women's Day Remix</h2>
+                <p>Nhạc nền đặc biệt cho ngày 20/10!</p>
+                <button id="play-remix" class="play-btn">
+                    <i class="fas fa-play"></i> Phát nhạc
+                </button>
+            </div>
+        </div>
+
+        <div id="door-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="door-animation">
+                    <div class="door-icon">🚪</div>
+                    <div class="door-glow"></div>
+                </div>
+                <h2>Cánh Cửa Cuối Cùng</h2>
+                <p>Bạn đã khám phá hết căn phòng của Trí rồi! Đã đến lúc kết thúc hành trình này...</p>
+                <button id="enter-ending" class="enter-ending-btn">
+                    <i class="fas fa-door-open"></i> Bước vào cảnh cuối
+                </button>
+            </div>
+        </div>
+
+        <!-- Feedback Modal -->
+        <div id="feedback-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Gửi Lời Chúc Cho Trí 💬</h2>
+                <form id="feedback-form">
+                    <div class="form-group">
+                        <label for="feedback-name">Ghi têntên:</label>
+                        <input type="text" id="feedback-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="feedback-message">NNói gì với Trí đi:</label>
+                        <textarea id="feedback-message" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Gửi lời chúc
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="background-music" loop>
+        <source src="background.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="remix-music" loop>
+        <source src="background.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- Symbol Audio -->
+    <audio id="mom-heartbeat" loop>
+        <source src="heartbeat.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="aunt-fire" loop>
+        <source src="fire.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="grandma-wind" loop>
+        <source src="wind.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="transition-sound">
+        <source src="background.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
